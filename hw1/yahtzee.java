@@ -14,7 +14,7 @@ public class yahtzee {
       Scanner cin = new Scanner(System.in);
       final int DICE_IN_PLAY = 5;
       int[] hand = new int[DICE_IN_PLAY];
-      Math.srand(time(0));
+      Random rand = new Random(System.currentTimeMillis());
       String playAgain = "y";
 
       while (playAgain.equals("y")) {
@@ -24,7 +24,7 @@ public class yahtzee {
           // roll dice not kept
           for (int dieNumber = 0; dieNumber < DICE_IN_PLAY; dieNumber++) {
             if (keep.charAt(dieNumber) != 'y')
-              hand.charAt(dieNumber) = rollDie();
+              hand[dieNumber] = rollDie(rand);
           }
           // output rollDie
           System.out.print("Your roll was: ");
@@ -87,7 +87,7 @@ public class yahtzee {
           System.out.println();
         }
 
-        if (maxStraightFound(hand >= 4)) {
+        if (maxStraightFound(hand) >= 4) {
           System.out.print("Score 30 on the Small Straight line");
           System.out.println();
         } else {
@@ -95,7 +95,7 @@ public class yahtzee {
           System.out.println();
         }
 
-        if (maxStraightFound(hand >= 5)) {
+        if (maxStraightFound(hand) >= 5) {
           System.out.print("Score 40 on the Large Straight line");
           System.out.println();
         } else {
@@ -115,14 +115,12 @@ public class yahtzee {
         System.out.print("Chance line");
         System.out.println();
         System.out.print("\nEnter 'y' to play again ");
-        cin.next();
-      }
-      return 0;
+        playAgain = cin.next();
       }
     }
     //this function simulates the rolling of a single die
-    public static int rollDie() {
-      int roll = Math.srand() % 6 + 1;
+    public static int rollDie(Random rand) {
+      int roll = rand.nextInt(6)+1;
       return roll;
     }
     //ths function returns the count of the die value occuring most
@@ -143,17 +141,16 @@ public class yahtzee {
       return maxCount;
     }
     //this function returns the total value of all dice in a hand
-    int totalAllDice(int hand[]) {
+    public static int totalAllDice(int hand[]) {
         int total = 0;
-        for (int diePosition = 0; diePosition < 5; diePosition++)
-        {
+        for (int diePosition = 0; diePosition < 5; diePosition++) {
             total += hand[diePosition];
         }
         return total;
     }
 
     //bubble sort from  Gaddis chapter 8
-    void sortArray(int array[], int size) {
+    public static void sortArray(int array[], int size) {
        boolean swap;
        int temp;
        do {
@@ -173,7 +170,7 @@ public class yahtzee {
 
     //this function returns the length of the longest
     //straight found in a hand
-    int maxStraightFound(int hand[]) {
+    public static int maxStraightFound(int hand[]) {
         int maxLength = 1;
         int curLength = 1;
         for(int counter = 0; counter < 4; counter++)
@@ -186,5 +183,30 @@ public class yahtzee {
                 maxLength = curLength;
         }
         return maxLength;
+    }
+
+    //this function returns true if the hand is a full house
+    //or false if it does not
+    public static boolean fullHouseFound(int hand[]) {
+        boolean foundFH = false;
+        boolean found3K = false;
+        boolean found2K = false;
+        int currentCount ;
+        for (int dieValue = 1; dieValue <=6; dieValue++)
+        {
+            currentCount = 0;
+            for (int diePosition = 0; diePosition < 5; diePosition++)
+            {
+                if (hand[diePosition] == dieValue)
+                    currentCount++;
+            }
+            if (currentCount == 2)
+                found2K = true;
+            if (currentCount == 3)
+                found3K = true;
+        }
+        if (found2K && found3K)
+            foundFH = true;
+        return foundFH;
     }
 }
