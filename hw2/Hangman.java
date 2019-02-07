@@ -1,3 +1,8 @@
+/*
+	Homework #2
+	Due Date: 2/11
+	Names: Brett Barinaga
+*/
 import java.io.*;
 import javax.swing.JOptionPane;
 import java.util.*;
