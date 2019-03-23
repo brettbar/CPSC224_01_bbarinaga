@@ -27,20 +27,19 @@ public class hw4 extends JFrame {
     setSize(WINDOW_WIDTH * 2,WINDOW_HEIGHT * 2);
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    // init();
+    init();
     createPanel();
     setVisible(true);
   }
 
 
 
-  // public void init() {
-  //   ImageIcon sky = new ImageIcon("hw4_layers_sky.png");
-  //   ImageIcon ground = new ImageIcon("hw4_layers_ground.png");
-  //   ImageIcon mts_close = new ImageIcon("hw4_layers_mts_close.png");
-  //   ImageIcon mts_far = new ImageIcon("hw4_layers_mts_far.png");
-  //   ImageIcon suns = new ImageIcon("hw4_layers_suns.png");
-  // }
+  public void init()
+  {
+     // Add a mouse listener and a mouse motion listener.
+     addMouseListener(new MyMouseListener());
+     //addMouseMotionListener(new MyMouseMotionListener());
+  }
 
   public void createPanel() {
     panel = new JPanel();
@@ -62,6 +61,32 @@ public class hw4 extends JFrame {
      paint method
      @param g The applet's Graphics object.
   */
+
+  private class MyMouseListener implements MouseListener {
+     public void mousePressed(MouseEvent e) {
+        // Get the mouse cursor coordinates.
+        // currentX = e.getX();
+        // currentY = e.getY();
+        repaint();
+     }
+
+     //
+     // The following methods are unused, but still
+     // required by the MouseListener interface.
+     //
+
+     public void mouseClicked(MouseEvent e) {
+     }
+
+     public void mouseReleased(MouseEvent e) {
+     }
+
+     public void mouseEntered(MouseEvent e) {
+     }
+
+     public void mouseExited(MouseEvent e) {
+     }
+  }
 
   public void paint(Graphics g)
   {
