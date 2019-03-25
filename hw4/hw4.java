@@ -11,6 +11,13 @@ public class hw4 extends JFrame {
 
   private final int WINDOW_WIDTH = 512; // Window width
   private final int WINDOW_HEIGHT = 384; // Window height
+
+  private final int MID_X = WINDOW_WIDTH / 2;
+  private final int MID_Y = WINDOW_HEIGHT / 2;
+
+  private int currentX = 0; // Mouse cursor's X position
+  private int currentY = 50; // Mouse cursor's Y position
+
   private JPanel panel;
   private BufferedImage sky;
   private BufferedImage ground;
@@ -38,8 +45,9 @@ public class hw4 extends JFrame {
   {
      // Add a mouse listener and a mouse motion listener.
      addMouseListener(new MyMouseListener());
-     //addMouseMotionListener(new MyMouseMotionListener());
+     addMouseMotionListener(new MyMouseMotionListener());
   }
+
 
   public void createPanel() {
     panel = new JPanel();
@@ -55,7 +63,7 @@ public class hw4 extends JFrame {
       e.printStackTrace();
     }
 
-    repaint();
+    //repaint();
   }
   /**
      paint method
@@ -65,9 +73,9 @@ public class hw4 extends JFrame {
   private class MyMouseListener implements MouseListener {
      public void mousePressed(MouseEvent e) {
         // Get the mouse cursor coordinates.
-        // currentX = e.getX();
-        // currentY = e.getY();
-        repaint();
+        // currentX = e.getX() - 50;
+        // currentY = e.getY() - 50;
+        // repaint();
      }
 
      //
@@ -87,11 +95,41 @@ public class hw4 extends JFrame {
      public void mouseExited(MouseEvent e) {
      }
   }
+  private class MyMouseMotionListener implements MouseMotionListener {
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    public void mouseMoved(MouseEvent e) {
+      // currentX = currentX + e.getX() - 50;
+      // currentY = currentY + e.getY() - 50;
+      // repaint();
+      if (e.getX() > MID_X) {
+
+      }
+
+      if (e.getY() > MID_Y) {
+
+      }
+
+      if (e.getX() < MID_X) {
+
+      }
+
+      if (e.getY() < MID_Y) {
+
+      }
+      repaint()
+
+    }
+
+  }
 
   public void paint(Graphics g)
   {
+    super.paint(g);
     g.drawImage(sky, 0, 0, sky.getWidth() * 2, sky.getHeight() * 2, null );
-    g.drawImage(suns, 0, 50, suns.getWidth() * 2, suns.getHeight() * 2, null );
+    g.drawImage(suns, 0, 0, suns.getWidth() * 2, suns.getHeight() * 2, null );
     g.drawImage(mts_far, 0, 0, mts_far.getWidth() * 2, mts_far.getHeight() * 2, null );
     g.drawImage(mts_close, 0, 0, mts_close.getWidth() * 2, mts_close.getHeight() * 2, null );
     g.drawImage(ground, 0, 0, ground.getWidth() * 2, ground.getHeight() * 2, null );
