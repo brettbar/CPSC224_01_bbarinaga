@@ -1,3 +1,13 @@
+/*
+	Homework #4
+	Due Date: 3/25/2019
+	Names: Brett Barinaga
+*/
+
+// NOTE: This program works, other than the fact there is an annoying flicker when
+// the window repaints. I talked to you in office hours and you said it wasn't
+// a big deal, but in the mean time ill try to find a solution.
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Graphics;
@@ -28,16 +38,12 @@ public class hw4 extends JFrame {
 
   private int sky_X = 0;
   private int sky_Y = 0;
-
   private int ground_X = 0;
   private int ground_Y = 0;
-
   private int mtsClose_X = 0;
   private int mtsClose_Y = 0;
-
   private int mtsFar_X = 0;
   private int mtsFar_Y = 0;
-
   private int suns_X = 0;
   private int suns_Y = 0;
 
@@ -80,8 +86,6 @@ public class hw4 extends JFrame {
     } catch(IOException e) {
       e.printStackTrace();
     }
-
-    //repaint();
   }
   /**
      paint method
@@ -89,7 +93,7 @@ public class hw4 extends JFrame {
   */
 
   private class MyMouseListener implements MouseListener {
-    boolean clicked = false;
+     boolean clicked = false;
      public void mousePressed(MouseEvent e) {
 
      }
@@ -155,16 +159,18 @@ public class hw4 extends JFrame {
   }
 
   public void paint(Graphics g) {
-    update(g);
-
-  }
-  public void update(Graphics g) {
     g.drawImage(sky, sky_X, sky_Y, sky.getWidth() * 2, sky.getHeight() * 2, null );
     g.drawImage(suns, suns_X, suns_Y, suns.getWidth() * 2, suns.getHeight() * 2, null );
     g.drawImage(mtsFar, mtsFar_X, mtsFar_Y, mtsFar.getWidth() * 2, mtsFar.getHeight() * 2, null );
     g.drawImage(mtsClose, mtsClose_X, mtsClose_Y, mtsClose.getWidth() * 2, mtsClose.getHeight() * 2, null );
     g.drawImage(ground, ground_X, ground_Y, ground.getWidth() * 2, ground.getHeight() * 2, null );
     g.drawString("Move mouse on left or right of screen to move, Click anywhere to change sun color", 50, 50);
+    g.dispose();
+  }
+
+  @Override
+  public void update(Graphics g) {
+    paint(g);
   }
 
 
