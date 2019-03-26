@@ -21,9 +21,26 @@ public class hw4 extends JFrame {
   private JPanel panel;
   private BufferedImage sky;
   private BufferedImage ground;
-  private BufferedImage mts_close;
-  private BufferedImage mts_far;
+  private BufferedImage mtsClose;
+  private BufferedImage mtsFar;
   private BufferedImage suns;
+  private BufferedImage yellow_suns;
+
+  private int sky_X = 0;
+  private int sky_Y = 0;
+
+  private int ground_X = 0;
+  private int ground_Y = 0;
+
+  private int mtsClose_X = 0;
+  private int mtsClose_Y = 0;
+
+  private int mtsFar_X = 0;
+  private int mtsFar_Y = 0;
+
+  private int suns_X = 0;
+  private int suns_Y = 0;
+
 
   public static void main(String[] args) {
     new hw4();
@@ -36,13 +53,12 @@ public class hw4 extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     init();
     createPanel();
+    setResizable(false);
     setVisible(true);
   }
 
 
-
-  public void init()
-  {
+  public void init() {
      // Add a mouse listener and a mouse motion listener.
      addMouseListener(new MyMouseListener());
      addMouseMotionListener(new MyMouseMotionListener());
@@ -55,9 +71,11 @@ public class hw4 extends JFrame {
     try {
       sky = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_sky.png"));
       ground = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_ground.png"));
-      mts_close = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_mts_close.png"));
-      mts_far = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_mts_far.png"));
+      mtsClose = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_mts_close.png"));
+      mtsFar = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_mts_far.png"));
       suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_suns.png"));
+
+      yellow_suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_yellow_suns.png"));
 
     } catch(IOException e) {
       e.printStackTrace();
@@ -71,11 +89,9 @@ public class hw4 extends JFrame {
   */
 
   private class MyMouseListener implements MouseListener {
+    boolean clicked = false;
      public void mousePressed(MouseEvent e) {
-        // Get the mouse cursor coordinates.
-        // currentX = e.getX() - 50;
-        // currentY = e.getY() - 50;
-        // repaint();
+
      }
 
      //
@@ -84,6 +100,18 @@ public class hw4 extends JFrame {
      //
 
      public void mouseClicked(MouseEvent e) {
+       clicked = !clicked;
+       try {
+         if (!clicked) {
+           suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_suns.png"));
+         } else {
+           suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_yellow_suns.png"));
+         }
+       } catch(IOException ee) {
+         ee.printStackTrace();
+       }
+       repaint();
+
      }
 
      public void mouseReleased(MouseEvent e) {
@@ -100,38 +128,44 @@ public class hw4 extends JFrame {
 
     }
 
+    public int moved = 0;
     public void mouseMoved(MouseEvent e) {
-      // currentX = currentX + e.getX() - 50;
-      // currentY = currentY + e.getY() - 50;
-      // repaint();
-      if (e.getX() > MID_X) {
+      moved++;
 
+      if (moved % 5 == 0) {
+        if (e.getX() > MID_X && ground_X > -512) {
+          sky_X = sky_X - 1;
+          suns_X = suns_X;
+          mtsFar_X = mtsFar_X - 2;
+          mtsClose_X = mtsClose_X - 4;
+          ground_X = ground_X - 6;
+        }
+        if (ground_X > -512 && ground_X < 0) {
+          repaint();
+        }
+        if (e.getX() < MID_X && ground_X < 0) {
+          sky_X = sky_X + 1;
+          suns_X = suns_X;
+          mtsFar_X = mtsFar_X + 2;
+          mtsClose_X = mtsClose_X + 4;
+          ground_X = ground_X + 6;
+        }
       }
-
-      if (e.getY() > MID_Y) {
-
-      }
-
-      if (e.getX() < MID_X) {
-
-      }
-
-      if (e.getY() < MID_Y) {
-
-      }
-      repaint()
-
     }
-
   }
 
-  public void paint(Graphics g)
-  {
-    super.paint(g);
-    g.drawImage(sky, 0, 0, sky.getWidth() * 2, sky.getHeight() * 2, null );
-    g.drawImage(suns, 0, 0, suns.getWidth() * 2, suns.getHeight() * 2, null );
-    g.drawImage(mts_far, 0, 0, mts_far.getWidth() * 2, mts_far.getHeight() * 2, null );
-    g.drawImage(mts_close, 0, 0, mts_close.getWidth() * 2, mts_close.getHeight() * 2, null );
-    g.drawImage(ground, 0, 0, ground.getWidth() * 2, ground.getHeight() * 2, null );
+  public void paint(Graphics g) {
+    update(g);
+
   }
+  public void update(Graphics g) {
+    g.drawImage(sky, sky_X, sky_Y, sky.getWidth() * 2, sky.getHeight() * 2, null );
+    g.drawImage(suns, suns_X, suns_Y, suns.getWidth() * 2, suns.getHeight() * 2, null );
+    g.drawImage(mtsFar, mtsFar_X, mtsFar_Y, mtsFar.getWidth() * 2, mtsFar.getHeight() * 2, null );
+    g.drawImage(mtsClose, mtsClose_X, mtsClose_Y, mtsClose.getWidth() * 2, mtsClose.getHeight() * 2, null );
+    g.drawImage(ground, ground_X, ground_Y, ground.getWidth() * 2, ground.getHeight() * 2, null );
+    g.drawString("Move mouse on left or right of screen to move, Click anywhere to change sun color", 50, 50);
+  }
+
+
 }
