@@ -28,7 +28,7 @@ public class hw4 extends JFrame {
   private int currentX = 0; // Mouse cursor's X position
   private int currentY = 50; // Mouse cursor's Y position
 
-  private JPanel panel;
+  private paintPanel panel;
   private BufferedImage sky;
   private BufferedImage ground;
   private BufferedImage mtsClose;
@@ -59,6 +59,8 @@ public class hw4 extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     init();
     createPanel();
+    add(panel);
+
     setResizable(false);
     setVisible(true);
   }
@@ -72,7 +74,8 @@ public class hw4 extends JFrame {
 
 
   public void createPanel() {
-    panel = new JPanel();
+    panel = new paintPanel();
+
 
     try {
       sky = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_sky.png"));
@@ -158,20 +161,20 @@ public class hw4 extends JFrame {
     }
   }
 
-  public void paint(Graphics g) {
-    g.drawImage(sky, sky_X, sky_Y, sky.getWidth() * 2, sky.getHeight() * 2, null );
-    g.drawImage(suns, suns_X, suns_Y, suns.getWidth() * 2, suns.getHeight() * 2, null );
-    g.drawImage(mtsFar, mtsFar_X, mtsFar_Y, mtsFar.getWidth() * 2, mtsFar.getHeight() * 2, null );
-    g.drawImage(mtsClose, mtsClose_X, mtsClose_Y, mtsClose.getWidth() * 2, mtsClose.getHeight() * 2, null );
-    g.drawImage(ground, ground_X, ground_Y, ground.getWidth() * 2, ground.getHeight() * 2, null );
-    g.drawString("Move mouse on left or right of screen to move, Click anywhere to change sun color", 50, 50);
-    g.dispose();
+  private class paintPanel extends JPanel {
+    public void paintComponent(Graphics g) {
+      super.paintComponent(g);
+      g.drawImage(sky, sky_X, sky_Y, sky.getWidth() * 2, sky.getHeight() * 2, null );
+      g.drawImage(suns, suns_X, suns_Y, suns.getWidth() * 2, suns.getHeight() * 2, null );
+      g.drawImage(mtsFar, mtsFar_X, mtsFar_Y, mtsFar.getWidth() * 2, mtsFar.getHeight() * 2, null );
+      g.drawImage(mtsClose, mtsClose_X, mtsClose_Y, mtsClose.getWidth() * 2, mtsClose.getHeight() * 2, null );
+      g.drawImage(ground, ground_X, ground_Y, ground.getWidth() * 2, ground.getHeight() * 2, null );
+      g.drawString("Move mouse on left or right of screen to move, Click anywhere to change sun color", 50, 50);
+      g.dispose();
+    }
   }
 
-  @Override
-  public void update(Graphics g) {
-    paint(g);
-  }
+
 
 
 }
