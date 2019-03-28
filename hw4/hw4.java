@@ -125,9 +125,31 @@ public class hw4 extends JFrame {
      }
 
      public void mouseEntered(MouseEvent e) {
+       clicked = !clicked;
+       try {
+         if (!clicked) {
+           suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_suns.png"));
+         } else {
+           suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_yellow_suns.png"));
+         }
+       } catch(IOException ee) {
+         ee.printStackTrace();
+       }
+       repaint();
      }
 
      public void mouseExited(MouseEvent e) {
+       clicked = !clicked;
+       try {
+         if (!clicked) {
+           suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_suns.png"));
+         } else {
+           suns = ImageIO.read(getClass().getResourceAsStream("/hw4_layers_yellow_suns.png"));
+         }
+       } catch(IOException ee) {
+         ee.printStackTrace();
+       }
+       repaint();
      }
   }
   private class MyMouseMotionListener implements MouseMotionListener {
